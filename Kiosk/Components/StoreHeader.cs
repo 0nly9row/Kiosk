@@ -27,6 +27,5 @@ namespace Kiosk.Components
 
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]  
         public string Description { get => lblDescription.Text; set => lblDescription.Text = value;}
-
     }
 }

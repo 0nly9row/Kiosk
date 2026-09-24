@@ -37,7 +37,7 @@
             storeHeader1.Dock = DockStyle.Top;
             storeHeader1.Location = new Point(0, 0);
             storeHeader1.Name = "storeHeader1";
-            storeHeader1.Size = new Size(800, 146);
+            storeHeader1.Size = new Size(800, 136);
             storeHeader1.TabIndex = 0;
             storeHeader1.Title = " 상점";
             // 
