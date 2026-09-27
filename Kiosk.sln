@@ -11,8 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "솔루션 항목", "솔루�
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C8D5274F-AC00-46C7-1F8D-E88E81087A52}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1_Menu", "1_Menu", "{B06A05F9-DA5E-4E1F-A6B7-B4D997F94A3B}"
 	ProjectSection(SolutionItems) = preProject
-		docs\01_Menu.md = docs\01_Menu.md
+		docs\1_Menu\00_Plan.md = docs\1_Menu\00_Plan.md
 	EndProjectSection
 EndProject
 Global
@@ -28,6 +30,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B06A05F9-DA5E-4E1F-A6B7-B4D997F94A3B} = {C8D5274F-AC00-46C7-1F8D-E88E81087A52}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C94B17C3-916F-4820-823D-44E1810B69EE}
