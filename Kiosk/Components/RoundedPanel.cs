@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Kiosk.Components
 {
-    internal class RoundedPanel: Panel
+    internal class RoundedPanel : Panel
     {
         private int _borderWidth = 3;
         private int _borderRadius = 7;
@@ -17,10 +17,10 @@ namespace Kiosk.Components
 
         [DefaultValue(3)]
         [Category("RoundedPanel"), Description("테두리 두께")]
-        public int BorderWidth 
-        { 
-            get => _borderWidth; 
-            set {_borderWidth = value; Invalidate();} 
+        public int BorderWidth
+        {
+            get => _borderWidth;
+            set { _borderWidth = value; Invalidate(); }
         }
 
         [DefaultValue(7)]
@@ -47,16 +47,40 @@ namespace Kiosk.Components
             set { _backGround = value; Invalidate(); }
         }
 
-        [DefaultValue(2)]
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
             Graphics graphics = e.Graphics;
-            Rectangle rect = new Rectangle(_borderWidth, _borderWidth, 
+            Rectangle rect = new Rectangle(_borderWidth, _borderWidth,
                                            Width - _borderWidth * 2, Height - _borderWidth * 2);
+            GraphicsPath path = RoundedRectanglePath(rect, _borderRadius);
+
+        }
+
+        private static GraphicsPath RoundedRectanglePath(Rectangle rect, int radius)
+        {
             GraphicsPath path = new GraphicsPath();
 
-        }
+            if (radius <= 0)
+            {
+                path.AddRectangle(rect);
+                return path;
+            }
 
+            int diameter = radius * 2;
+
+            Rectangle topLeft = new Rectangle(rect.X, rect.Y, diameter, diameter);
+            Rectangle topRight = new Rectangle(rect.Right - diameter, rect.Y, diameter, diameter);
+            Rectangle bottomRight = new Rectangle(rect.Right - diameter, rect.Bottom - diameter, diameter, diameter);
+            Rectangle bottomLeft = new Rectangle(rect.X, rect.Bottom - diameter, diameter, diameter);
+
+            path.AddArc(topLeft, 180, 90);
+            path.AddArc(topRight, 270, 90);
+            path.AddArc(bottomRight, 0, 90);
+            path.AddArc(bottomLeft, 90, 90);
+            path.CloseFigure();
+
+            return path;
         }
     }
+}
