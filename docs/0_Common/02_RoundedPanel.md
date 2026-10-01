@@ -149,20 +149,79 @@ Panel 상속
    닫힌 도형의 경로를 완성한다.
 
 
-# 6. 현재 단계
+## 그리기 도구가 필요한 이유는?
+- GraphicsPath는 경로만을 정의한 것임.
+→ 내부 색, 테두리는 그려지지 않음
+→ 별도로 정의가 필요.
+
+
+## 내부 색, 테두리는 어떻게 구현할 것인가?
+1. 그리기 도구 객체 생성 
+- 생성과 동시에 상태를 부여함
+- 색, 두께 등...
+→ new 그리기 도구(설정 값)
+
+2. 실제 그리기
+- 경로 내부 색 채우기: graphics.FillPath()
+- 경로 테두리 그리기: graphics.DrawPath()
+
+
+# 왜 그리기 도구를 new로 생성하는가?
+- SolidBrush와 Pen은 설정값을 가지는 객체이기 때문이다.
+- 예시
+1. Blue 색상을 가진 Brush
+→ new SolidBrush(Color.Blue):
+2. 두께가 5인 Black 색상을 가진 Pen
+→ new Pen(Color.Black, 5)
+
+
+## SolidBrush가 아닌 Brush를 사용하면 안 되나?
+(1) Brush는 붓의 공통 규격(부모 타입)
+- Brush는 채우기 도구의 공통 부모 역할을 하는 추상 클래스이다.
+  → 객체 생성이 안됨
+  → Brush b = new Brush(); // 불가능
+
+- 타입으로는 쓸 수 있음
+  → 여러 구체 브러시를 담거나 매개변수 타입으로 사용할 수 있음
+
+- 사용 예시
+  → Brush brush = new SolidBrush(Color.White);
+  → void PaintBackground(Brush brush); 
+
+(2) Brush를 실제로 사용하기 위해선 구체 브러시 객체를 만들어야 함
+- 단색 채우기: SolidBrush
+- 그라데이션: LinearGradientBrush
+- 패턴: TextureBrush
+- hatch 무늬: HatchBrush
+
+
+
+# 6. 현재 구현 정리
 1. Rectangle 영역 계산 확정
   → RoundedPanel을 그릴 영역을 Rectangle로 지정했다.
   → BorderWidth를 고려하여 테두리가 잘리지 않도록 실제 그릴 영역을 계산했다.
 
 2. 둥근 사각형 경로 계산 확정
-- GraphicsPath를 이용하여  둥근 사각형 경로를 만드는 계산 방식을 정리했다.
+- GraphicsPath를 이용하여  둥근 사각형 경로를 만드는 계산을 한다.
   → radius를 기준으로 네 모서리 영역을 계산한다.
   → 각 영역에 AddArc()를 적용하여 네 모서리의 Arc를 추가한다.
   → CloseFigure()를 통해 닫힌 사각형 경로를 완성한다.
 
-3. 다음 구현 단계
-- 계산한 GraphicsPath를 이용하여 실제 RoundedPanel을 그린다.
-- 사각형 내부에 Background 색상을 채운다.
-- BorderWidth와 BorderColor를 이용해둥근 테두리를 그린다.
+3. RoundedPanel 내부 색상 및 테두리 구현 확정
+[내부 색상]
+- SolidBrush에 Background 색상을 적용하여 그리기 도구를 생성한다.
+- graphics.FillPath()를 이용하여 GraphicsPath 내부에 색상을 채운다.
+
+[테두리]
+- Pen에 BorderColor와 BorderWidth를 적용하여 그리기 도구를 생성한다.
+- graphics.DrawPath()를 이용하여 GraphicsPath를 따라 테두리를 그린다.
+
+4. 최종 구현 흐름 정리
+[RoundedPanel 외형 구현 확정]
+- Rectangle로 그릴 영역을 계산한다.
+- GraphicsPath로 둥근 경로를 계산한다.
+- SolidBrush와 FillPath()를 이용하여 내부 색상을 채운다.
+- Pen과 DrawPath()를 이용하여 테두리를 그린다.
+
 
 
