@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
 namespace Kiosk.Components
 {
@@ -55,6 +56,10 @@ namespace Kiosk.Components
                                            Width - _borderWidth * 2, Height - _borderWidth * 2);
             GraphicsPath path = RoundedRectanglePath(rect, _borderRadius);
 
+            SolidBrush innerBrush = new SolidBrush(_backGround);
+            graphics.FillPath(innerBrush, path);
+            Pen borderPen = new Pen(_borderColor, _borderWidth);
+            graphics.DrawPath(borderPen, path);
         }
 
         private static GraphicsPath RoundedRectanglePath(Rectangle rect, int radius)
@@ -84,3 +89,4 @@ namespace Kiosk.Components
         }
     }
 }
+
