@@ -60,6 +60,10 @@ namespace Kiosk.Components
             graphics.FillPath(innerBrush, path);
             Pen borderPen = new Pen(_borderColor, _borderWidth);
             graphics.DrawPath(borderPen, path);
+
+            innerBrush.Dispose();
+            borderPen.Dispose();
+            path.Dispose();
         }
 
         private static GraphicsPath RoundedRectanglePath(Rectangle rect, int radius)
