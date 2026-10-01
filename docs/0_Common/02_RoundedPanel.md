@@ -27,6 +27,32 @@ Panel 상속
 
 # 5. 코드를 작성하며 헷갈린 점
 
+## 0. 경로 계산 메서드를 왜 static으로 구현하는가?
+- 객체별로 보관할 상태가 없다.
+- 경로 계산에 필요한 값은 모두 매개변수로 전달받는다.
+- Rectangle rect + int radius 
+  → 경로 계산
+  → GraphicsPath 반환
+  → 역할 종료
+
+- 계산이 끝난 뒤 rect와 radius를 
+ 객체 내부 필드에 계속 저장할 필요가 없다.
+-  따라서 특정 객체의 상태 없이 입력값으로 계산하고
+결과만 반환하는 static 메서드가 적합하다.
+
+[현재 로직과 연결]
+- RoundedPanel A → rectA, radiusA 전달
+- RoundedPanel B → rectB, radiusB 전달
+- RoundedPanel C → rectC, radiusC 전달
+- 각 RoundedPanel 
+ → GraphicsUtil .GetRoundedRectanglePath(…) 
+ → 동일한 경로 계산 로직 사용 
+ → 각각의 GraphicsPath 반환
+
+- GraphicsUtil 자체는 
+ A, B, C의 Rectangle이나 radius를 계속 저장하지 않는다.
+
+
 ## 1. 사각형 크기 및 위치 영역 지정 로직의 의미
 [1. Rectangle의 값의 의미는?]
 - new Rectangle(위치(x, y)와 크기(가로(width), 세로(height)))
@@ -118,7 +144,6 @@ Panel 상속
 
 
 [6. CloseFigure()]
-
 - 네 모서리의 Arc를 모두 추가한 뒤 CloseFigure()를 호출한다.
  → 현재 경로의 마지막 지점과 시작 지점을 연결하여
    닫힌 도형의 경로를 완성한다.
