@@ -195,8 +195,15 @@ Panel 상속
 - hatch 무늬: HatchBrush
 
 
+## dispose()를 하는 이유는?
+- Brush, Pen, GraphicsPath 같은 건 윈도우 그림 도구를 빌려쓰는 것임.
+- 따라서 쓰고나면 반납(Dispose())이 필요
+- 그러나 하지 않는다고 당장 오류가 발생하는 것이 아님.
+ → 그래픽 리소스를 사용이 끝난 시점에 확실하게 정리
 
-# 6. 현재 구현 정리
+
+
+# 6. 구현 정리
 1. Rectangle 영역 계산 확정
   → RoundedPanel을 그릴 영역을 Rectangle로 지정했다.
   → BorderWidth를 고려하여 테두리가 잘리지 않도록 실제 그릴 영역을 계산했다.
@@ -216,12 +223,25 @@ Panel 상속
 - Pen에 BorderColor와 BorderWidth를 적용하여 그리기 도구를 생성한다.
 - graphics.DrawPath()를 이용하여 GraphicsPath를 따라 테두리를 그린다.
 
-4. 최종 구현 흐름 정리
+4. 그리기 도구 반납 확정
+- GraphicsPath, SolidBrush, Pen의 사용이 끝난 뒤
+ Dispose()를 통해 정리한다.
+
+[흐름]
+그래픽 객체 생성
+→ 그리기 작업 수행
+→ 사용 완료
+→ Dispose()
+→ 관련 리소스 정리
+
+5. 최종 구현 흐름 정리
 [RoundedPanel 외형 구현 확정]
 - Rectangle로 그릴 영역을 계산한다.
 - GraphicsPath로 둥근 경로를 계산한다.
 - SolidBrush와 FillPath()를 이용하여 내부 색상을 채운다.
 - Pen과 DrawPath()를 이용하여 테두리를 그린다.
+- 사용한 그래픽 객체를 Dispose()한다.
+- RoundedPanel 외형 구현 최종 완료.
 
 
 
