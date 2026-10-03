@@ -82,10 +82,48 @@ data.Price = 3000;
 MenuItemControl ui = new MenuItemControl();
 ui.Price = data.Price; 
 
+4. 다른 UI에서도 같은 메뉴 데이터를 재사용할 수 있다.
+- 특정 UI에 종속되지 않은 데이터 모델을 만들어두면
+ 필요 시 여러 UI에서 해당 데이터를 사용 가능하다.
+
+MenuItemData
+→ MenuItemControl에서 사용
+→ 장바구니에서 사용
+→ 영수증에서 사용
+
+
+5. UI 객체가 아니라 데이터만 전달할 수 있다
+- 데이터를 분리하면 UI 종류와 관계없이 메뉴 데이터만 전달하면 된다.
+[예시]
+void ExMethod(MenuItemData menu)
+{
+    string title = menu.Title;
+    decimal price = menu.Price;
+}
+
+- 데이터를 분리하지 않으면 다른 곳에서 메뉴 정보가 필요할 때
+  MenuItemControl 자체를 전달받아 값을 꺼내야 할 수 있다.
+  → 데이터를 사용하는 쪽이 특정 UI 타입에 의존하게 된다.
+  → MenuItemControl는 표시 역할 뿐만 아니라 데이터 보관소 역할까지 하게되는 것이다.
+[예시]
+① MenuItemControl라는 UI에서 정보를 가져오는 경우
+void ExMethod(MenuItemControl menu)
+{
+    string title = menu.Title;
+    decimal price = menu.Price;
+}
+
+② SimpleMenuControl menu라는 UI에서 정보를 가져오는 경우
+void ExMethod(SimpleMenuControl menu)
+{
+    string title = menu.Title;
+    decimal price = menu.Price;
+}
 
 # 최종 정리
 1. MenuItemData
 → 메뉴 하나의 실제 정보를 가지므로 어떤 메뉴인지 담당한다.
+→ 여러 UI가 MenuItemControl 자체가 아니라 공통 메뉴 데이터만 공유할 수 있다.
 
 2. MenuItemControl
 → MenuItemData에서 전달받은 값을 자신의 내부 UI에 어떻게 보여줄지 표시하는 역할을 담당한다.
