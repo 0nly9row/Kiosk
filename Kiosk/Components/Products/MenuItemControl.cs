@@ -19,14 +19,35 @@ namespace Kiosk.Components.Products
         public MenuItemControl()
         {
             InitializeComponent();
+            AddClickEvent(this);
         }
 
-        public event EventHandler MenuClicked;
+        private decimal _price;
+        public event EventHandler? MenuClicked;
 
+        [Category("MenuItemControl"), Description("상품 ID")]
         public int ID { get; set; }
-        public string Title { get => lblTitle.Text; set => lblTitle.Text = value; } 
-        public decimal Price { get => decimal.Parse(lblPrice.Text); set => lblPrice.Text = value.ToString(); }
+
+        [Category("MenuItemControl"), Description("상품명")]
+        public string Title { get => lblTitle.Text; set => lblTitle.Text = value; }
+
+        [Category("MenuItemControl"), Description("상품 사진")]
         public Image? Image { get => picBox.Image; set => picBox.Image = value; }
+
+        [Category("MenuItemControl"), Description("상품 가격")]
+        public decimal Price 
+        { 
+            get => _price;
+            set 
+            { _price = value;
+              SetPrice();
+            }
+        }
+
+        private void SetPrice()
+        {
+            lblPrice.Text = $"{_price.ToString("#,###")}원";
+        }
 
         private void AddClickEvent(Control parentControl) 
         {
