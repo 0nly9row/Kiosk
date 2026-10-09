@@ -16,12 +16,12 @@ namespace Kiosk.Components.Products
     {
         public event EventHandler<MenuItemData>? ItemClicked;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public List<MenuItemData> Items { get; set; } = [];
 
         public MenuBoard()
         {
             InitializeComponent();
-            CreateMenuItems();
         }
 
         public void CreateMenuItems()

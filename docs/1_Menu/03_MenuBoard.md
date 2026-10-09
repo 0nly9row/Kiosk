@@ -44,6 +44,39 @@
   (설계 기준의 하위의 동작은 Event로 전달한다를 따름)
 
 
+# 문제 해결
+1. 디자인 속성창에서 넣은 Items 내용이 저장안됨.
+- 원인: 디자인 속성창에서 넣은 Items 내용을 디자이너가 코드가 저장 못하는 것이다.
+→ [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)] 작성
+→ 의미: Items라는 List 자체만 보지 말고 그 안에 추가한 MenuItemData 내용까지 디자인 코드에 저장해라
+
+2. Items는 저장됐는데 메뉴 UI가 안 만들어짐
+- MenuBoard가 생성되는 시점에 생성해내면 될 거라고 생각해서 생성자에 작성했으나 작동하지 않음
+- 원인: CreateMenuItems() 실행 시점이 너무 빠름
+→ form1의 생성자에서 호출해준다.
+→ 런타임 시 동작 과정은 아래와 같다.
+
+[런타임 시 동작 과정]
+Form1 생성자 시작
+→ InitializeComponent()
+   → 아래의 동작이 순차적으로 실행됨
+   → 1. 하위 컨트롤 생성
+   → 2. 하위 생성자 실행
+   → 3. form에 배치된 컨트롤들의 디자인 속성 설정
+→ InitializeComponent() 종료
+→ 다음 코드 실행
+→ Form1 생성자 종료
+
+[MenuBoard의 생성자에 CreateMenuItems()를 넣으면 안되는 이유]
+따라서  MenuBoard의 생성자에 
+MenuItemControl을 생성하는 CreateMenuItems()를 넣으면,
+
+Form에서 설정한 Items의 디자인 속성값이
+적용되기 전에 실행되어 Items가 비어 있기 때문에
+메뉴 UI가 생성되지 않는다.
+
+
+
 # 주의점
 [디자인타임]
 → 실행할 구조와 코드를 준비
