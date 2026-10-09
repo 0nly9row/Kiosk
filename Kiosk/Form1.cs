@@ -10,7 +10,7 @@ namespace Kiosk
 
         private void menuBoard1_ItemClicked(object sender, Kiosk.Models.MenuItemData e)
         {
-
+            MessageBox.Show( $"{e.Title} Å¬¸¯µÊ");
         }
     }
 }
