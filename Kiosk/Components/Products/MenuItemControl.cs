@@ -14,7 +14,15 @@ using System.Windows.Forms;
 
 namespace Kiosk.Components.Products
 {
-    public partial class MenuItemControl : UserControl
+    public interface IMenuItemControl
+    {
+        event EventHandler<IMenuItemControl> MenuClicked;
+        public int ID { get; set; }
+        public string Title { get; set; }
+        public decimal Price { get; set; }
+        public Image Image { get; set; }
+    }
+    public partial class MenuItemControl : UserControl, IMenuItemControl
     {
         public MenuItemControl()
         {
@@ -23,7 +31,7 @@ namespace Kiosk.Components.Products
         }
 
         private decimal _price;
-        public event EventHandler? MenuClicked;
+        public event EventHandler<IMenuItemControl>? MenuClicked;
 
         [Category("MenuItemControl"), Description("상품 ID")]
         public int ID { get; set; }
@@ -63,7 +71,7 @@ namespace Kiosk.Components.Products
 
         private void Control_Click(object? sender,EventArgs e)
         {
-            MenuClicked?.Invoke(this,EventArgs.Empty);
+            MenuClicked?.Invoke(this, this);
         }
     }
 }

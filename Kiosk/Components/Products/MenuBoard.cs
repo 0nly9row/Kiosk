@@ -45,10 +45,11 @@ namespace Kiosk.Components.Products
             }
         }
 
-        private void MenuItem_MenuClicked(object? sender,EventArgs e)
+
+        private void MenuItem_MenuClicked(object? sender, IMenuItemControl e)
         {
             // 전달받은 sender가 MenuItemControl 아니면 return하고, 맞으면 menuItem이라 부르겠다.
-            if (sender is not MenuItemControl menuItem) return;
+            if (sender is not IMenuItemControl menuItem) return;
 
             MenuItemData? selectedItem = null;
 
