@@ -13,8 +13,12 @@
 → 메뉴 하나의 UI 표시
 → 클릭 시 MenuClicked 발생
 
+3. IMenuItemControl
+→ 메뉴 UI의 공통 규격
+→ 이벤트로 받은 객체의 ID를 읽는다
 
-[이제 필요한 것]
+
+[필요한 것]
 1. 여러 MenuItemData를
   하나의 목록으로 보관할 공간
 → List<MenuItemData> Items
@@ -24,6 +28,8 @@
 → Items를 foreach로 순회
 → MenuItemData 하나 확인
 → MenuItemControl 하나 생성
+→ 메뉴 속성에 값 할당
+
 
 3. 생성한 여러 MenuItemControl을
   화면에 추가할 공간
@@ -42,6 +48,24 @@
 → 선택된 메뉴로 인해 직접적으로 영향을 받는 곳은 상위 UI
 → 따라서 선택된 메뉴들의 정보 상위로 전달할 이벤트가 필요
   (설계 기준의 하위의 동작은 Event로 전달한다를 따름)
+
+
+# 4. 메뉴 선택 처리 변경
+[변경 전]
+- sender가 MenuItemControl인지 검사했다.
+if (sender is not MenuItemControl menuItem) return;
+
+[인터페이스 도입 후]
+- MenuClicked의 두 번째 인자로
+  IMenuItemControl 타입의 객체를 받는다.
+- e가 이미 인터페이스 타입이므로 
+  sender 검사 로직을 삭제한다.
+  → if (sender is not MenuItemControl menuItem) return; // 삭제
+
+- e.ID는 실제 메뉴 UI의 ID 값이다.
+- 메뉴 데이터 검색 방식은 그대로다.
+- UI 객체를 Form1에 직접 넘기지 않는다.
+- Form1에는 MenuItemData를 전달한다.
 
 
 # 문제 해결
@@ -95,4 +119,16 @@ Form에서 설정한 Items의 디자인 속성값이
 - MenuItemControl이 생성된다.
 - 각 메뉴 데이터가 적용된다.
 - FlowLayoutPanel에 추가된다.
-- 사용자가 클릭하는 메뉴의 정보가 상위로 전달된다.
+- 이벤트들이 연결된다.
+- 아래의 동작으로 사용자가 클릭하는 메뉴의 정보가 상위로 전달된다.
+
+[클릭 이벤트 상위 전달 처리]
+MenuItemControl 클릭
+→ MenuClicked 발생
+→ MenuBoard가 e 수신
+→ e.ID 확인
+→ Items에서 같은 ID 검색
+→ MenuItemData 선택
+→ ItemClicked 발생
+→ Form1에 데이터 전달
+
