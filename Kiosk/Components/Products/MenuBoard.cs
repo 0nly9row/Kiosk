@@ -48,14 +48,11 @@ namespace Kiosk.Components.Products
 
         private void MenuItem_MenuClicked(object? sender, IMenuItemControl e)
         {
-            // 전달받은 sender가 MenuItemControl 아니면 return하고, 맞으면 menuItem이라 부르겠다.
-            if (sender is not IMenuItemControl menuItem) return;
-
             MenuItemData? selectedItem = null;
 
             foreach (MenuItemData item in Items)
             {
-                if (item.ID == menuItem.ID)
+                if (item.ID == e.ID)
                 {
                     selectedItem = item;
                     break;
