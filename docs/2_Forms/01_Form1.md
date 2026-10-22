@@ -4,7 +4,17 @@
 
 
 # 쓰임새
-1. MenuBoard와 장바구니 UI 연결
+1. MenuBoard와 장바구니 UI 연결 
+- 구현 상태: 완료
+
+[UI]
+Form1
+├─ MenuBoard (디자인타임에 배치)
+│      └─ MenuItemControl (런타임에 올려짐) 
+│
+└─ ShoppingCartControl (디자인타임에 배치)
+         └─ CartItemControl (런타임에 올려짐) 
+
 
 [로직 흐름]
 - MenuBoard의 ItemClicked 이벤트를 구독한다.
@@ -18,4 +28,3 @@
 - 장바구니 UI가 MenuItemData를 전달받는다.
 - 장바구니 UI 내부에서 새 메뉴를 추가하거나
 - 이미 담긴 메뉴라면 수량을 변경한다.
-
