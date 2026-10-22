@@ -1,3 +1,7 @@
+using Kiosk.Models;
+using System;
+using System.Windows.Forms;
+
 namespace Kiosk
 {
     public partial class Form1 : Form
@@ -8,9 +12,10 @@ namespace Kiosk
             menuBoard1.CreateMenuItems();
         }
 
-        private void menuBoard1_ItemClicked(object sender, Kiosk.Models.MenuItemData e)
+        private void menuBoard1_ItemClicked(
+            object sender, MenuItemData e)
         {
-            MessageBox.Show( $"{e.Title} Å¬¸¯µÊ");
+            shoppingCartControl1.AddItem(e);
         }
     }
 }
