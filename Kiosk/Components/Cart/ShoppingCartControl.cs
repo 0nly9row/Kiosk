@@ -60,8 +60,8 @@ namespace Kiosk.Components.Cart
             CartItemControl control = new CartItemControl();
             control.SetData(data);
 
-            control.CountChanged += CartItem_CountChanged;
-            control.DeleteClicked += CartItem_DeleteClicked;
+            control.CountChanged += CartItemControl_CountChanged;
+            control.DeleteClicked += CartItemControl_DeleteClicked;
 
             _items.Add(data);
             flpnl.Controls.Add(control);
@@ -69,12 +69,12 @@ namespace Kiosk.Components.Cart
             RaiseCartChanged();
         }
 
-        private void CartItem_CountChanged(object? sender, EventArgs e)
+        private void CartItemControl_CountChanged(object? sender, EventArgs e)
         {
             RaiseCartChanged();
         }
 
-        private void CartItem_DeleteClicked(object? sender, EventArgs e)
+        private void CartItemControl_DeleteClicked(object? sender, EventArgs e)
         {
             if (sender is not CartItemControl control || control.Data == null)
                 return;
