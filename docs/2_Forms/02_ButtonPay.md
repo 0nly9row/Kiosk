@@ -10,7 +10,7 @@
 # UI구성
 ButtonPay     
 └─ RoundedPanel
-      └─ Button
+      └─ Label
 
 
 # 설계 기준
@@ -18,6 +18,11 @@ ButtonPay
 - Button은 클릭만 발생시킨다.
 - 주문 검사와 영수증 생성은 Form1이 한다.
 
+[실제 구현]
+- ButtonClick 대표 이벤트 선언
+- AddButtonClick(this) 생성자에서 호출
+- 내부 컨트롤의 Click 이벤트 재귀 연결
+- 클릭 시 ButtonClick 발생
 
 # 클릭 처리 계획
 [1. 장바구니가 비어 있는 경우]
