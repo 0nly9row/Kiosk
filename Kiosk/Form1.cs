@@ -23,5 +23,20 @@ namespace Kiosk
             orderTotalControl1.TotalCountView = shoppingCartControl1.TotalCount;
             orderTotalControl1.TotalPriceView = shoppingCartControl1.TotalPrice;
         }
+
+        private void buttonPay1_ButtonClick(object sender, EventArgs e)
+        {
+            if (shoppingCartControl1.TotalCount == 0)
+            {
+                MessageBox.Show("상품을 담아주세요!");
+                return;
+            }
+            // 영수증 연결 로직은 이후 구현
+        }
+
+        private void buttonClear1_ButtonClick(object sender, EventArgs e)
+        {
+            shoppingCartControl1.CancelClear();
+        }
     }
 }
