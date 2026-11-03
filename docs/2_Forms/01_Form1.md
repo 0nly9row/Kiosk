@@ -1,7 +1,8 @@
 # 역할
 - 각 UserControl을 연결하고, 전체 주문 흐름을 구성한다.
 - 하위 컨트롤 사이에서 데이터와 동작을 전달하는 브릿지 역할을 한다.
-
+- 결제 요청을 검사하고 영수증 데이터를 생성하여 ReceiptForm에 전달한다.
+- 영수증 종료 후 장바구니 초기화를 요청한다.
 
 
 # UI
@@ -13,9 +14,7 @@ Form1
 │      └─ CartItemControl (런타임에 올려짐) 
 │
 ├─ OrderTotalControl (디자인타임에 배치)
-│  
 ├─ ButtonClear (디자인타임에 배치)
-│   
 └─ ButtonPay (디자인타임에 배치)
 
 
@@ -37,7 +36,8 @@ Form1
 
 ## 2. ShoppingCartControl과 OrderTotalControl 연결
 - 구현 상태: 완료
-→ Form1은 연결만 담당
+- Form1은 CartChanged 이벤트를 수신한다.
+→ Form1은 직접 계산은 없으며 값 연결만 담당
 
 [로직 흐름]
 - ShoppingCartControl의 CartChanged를 구독한다.
@@ -48,8 +48,7 @@ Form1
 
 [이 연결의 영향]
 - OrderTotalControl이 TotalCount, TotalPrice를 전달받아
-  실제 값은 필드에 저장하고,
-  포멧하여 내부 UI에 표시한다.
+  실제 값은 필드에 저장하고, 포멧하여 내부 UI에 표시한다.
 
 
 ## 3. ButtonClear와 Form1 연결
@@ -71,19 +70,72 @@ Form1
 
 
 ## 4. ButtonPay와 Form1 연결
-- 구현 상태: 부분 완료
-→ Form1이 결제 요청을 처리한다.
+- 구현 상태: 완료
+- Form1이 결제 요청을 받아 장바구니를 검사한다.
 
 [로직 흐름]
 - ButtonPay의 ButtonClick 이벤트를 구독한다.
 - 이벤트 핸들러에서
   ShoppingCartControl.TotalCount를 조회한다.
 - 전체 수량이 0이면
-  MessageBox로 안내 메시지를 표시한다.
+  MessageBox.Show()로 안내 메시지를 표시한다.
 - return으로 결제 처리를 종료한다.
-- 상품이 있으면 영수증 생성으로 진행할 예정이다.
+- 상품이 존재하면 ShowReceipt()를 호출한다.
 
 [이 연결의 영향]
-- 장바구니가 비어 있을 때
-  영수증 생성으로 진행하지 않는다.
-- 영수증 생성 로직은 아직 구현하지 않았다.
+- 빈 장바구니는 영수증 생성 단계로 가지 않는다.
+- 상품이 있으면 영수증 데이터 생성으로 진행한다.
+
+
+## 5. ShowReceipt() 구현
+- 구현 상태: 완료
+- 영수증용 상품 목록 생성 및 주문 시점을 설정하고,
+ 영수증용 전체 데이터 모델을 만들어 영수증을 표시하고 자원을 정리하는 것까지 담당한다.
+
+[로직 흐름]
+1. 영수증용 상품 목록 생성
+- shoppingCartControl1.ReceiptItems() 호출
+- List<ReceiptItemData>를 반환받는다.
+- 영수증용으로 복사한 상품 목록을 사용한다.
+
+2. 주문 시점 설정
+- DateTime orderTime = DateTime.Now;
+- 주문번호와 주문시간에 같은 시점을 사용한다.
+
+3. ReceiptData 생성
+- Form1에서 ReceiptData 객체를 생성한다.
+- 생성된 객체의 속성에 값을 부여한다.
+- 합계는 복사한 receiptItems를 기준으로 한다.
+
+4. ReceiptForm 표시와 자원 정리
+- ReceiptForm(receiptData)로 폼을 생성한다.
+- receiptForm.ShowDialog(this)를 호출한다.
+- 사용자가 기본 X 버튼으로 닫으면 ShowDialog()가 반환된다.
+- 이후 receiptForm.Dispose()를 호출한다.
+- Form1이 영수증 데이터를 만들어 전달하고,
+  ReceiptForm은 받은 데이터만 표시한다.
+
+5. 장바구니 초기화
+- ShowDialog()가 정상 반환된 뒤
+  shoppingCartControl1.CancelClear()를 호출한다.
+- CartChanged 이벤트가 발생한다.
+- 기존 핸들러를 통해 합계 UI가 갱신된다.
+- ReceiptForm은 장바구니를 직접 수정하지 않는다.
+
+
+[전체 실행 흐름]
+ButtonPay.ButtonClick
+→ Form1에서 장바구니 수량 검사
+→ Form1.ShowReceipt()
+→ ShoppingCartControl.ReceiptItems()
+→ List<ReceiptItemData> 반환
+→ Form1에서 ReceiptData 생성
+→ ReceiptForm(receiptData) 생성
+→ ShowDialog(this)로 영수증 표시
+→ 사용자가 X 버튼으로 닫기
+→ ShowDialog() 반환
+→ receiptForm.Dispose()
+→ ShoppingCartControl.CancelClear()
+→ CartChanged 이벤트 발생
+→ OrderTotalControl 갱신
+

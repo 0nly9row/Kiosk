@@ -31,11 +31,43 @@ namespace Kiosk
                 MessageBox.Show("상품을 담아주세요!");
                 return;
             }
-            // 영수증 연결 로직은 이후 구현
+
+            ShowReceipt();
         }
 
         private void buttonClear1_ButtonClick(object sender, EventArgs e)
         {
+            shoppingCartControl1.CancelClear();
+        }
+
+        private void ShowReceipt()
+        {
+            List<ReceiptItemData> receiptItems =
+                shoppingCartControl1.ReceiptItems();
+
+            DateTime orderTime = DateTime.Now;
+
+            ReceiptData receiptData = new ReceiptData
+            {
+                StoreName = "먼지덩이",
+                StoreDescription = "스티커 가게 임니다.",
+                OrderNumber =
+                    orderTime.ToString("yyyyMMddHHmmss"),
+
+                OrderTime = orderTime,
+                Items = receiptItems,
+
+                TotalCount =
+                    receiptItems.Sum(item => item.Count),
+
+                TotalPrice =
+                    receiptItems.Sum(item => item.SumPrice)
+            };
+
+            ReceiptForm receiptForm = new ReceiptForm(receiptData);
+            receiptForm.ShowDialog(this);
+            receiptForm.Dispose();
+            
             shoppingCartControl1.CancelClear();
         }
     }
