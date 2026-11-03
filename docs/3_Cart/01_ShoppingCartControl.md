@@ -23,7 +23,9 @@
 3. 항목 삭제 요청을 받아 실제 항목을 제거한다.
 4. 전체 수량과 총 금액을 계산한다.
 5. 장바구니 전체 변경을 상위에 알린다.
-
+6. 영수증용 상품 데이터 추출 
+   → 현재 장바구니 데이터를 기준으로 영수증용 상품 데이터 목록 생성
+   → 기존 장바구니 데이터 목록(_items)를 외부로 공개하지 않음
 
 
 # 2. 설계 기준 
@@ -248,6 +250,17 @@ ShoppingCartControl
 → RaiseCartChanged()
 
 
+③ ReceiptItems() 구현
+- 영수증용 상품 목록을 생성하는 메서드
+- 반환형: List<ReceiptItemData>
+→ _items를 foreach로 순회
+→ 각 CartItemData에서 필요한 값을 추출
+→ ReceiptItemData 객체를 새로 생성
+→ 생성된 객체에 Title, Count, Price, SumPrice를 복사
+→ receiptItemDatas.Add()로 목록에 추가
+→ 완성된 영수증용 데이터 목록을 반환 (Form1에 반환 (연결 예정))
+
+
 
 [핸들러]
 ① CartItemControl - 'CountChanged event'
@@ -343,5 +356,6 @@ decimal price = cart.TotalPrice;
 - ShoppingCartControl 내부 로직 작성 완료
 - CartItemData 연동 코드 작성 완료
 - CartItemControl 연동 코드 작성 완료
-- Form1과 메뉴 선택 연결 예정
-- 전체 동작 검증 예정
+- Form1과 메뉴 선택 연결 완료
+- ReceiptItems() 영수증용 상품 목록 생성 완료
+- Form1에서 ReceiptItems() 호출 연결 예정

@@ -99,5 +99,25 @@ namespace Kiosk.Components.Cart
 
             RaiseCartChanged();
         }
+
+        // 영수증용 상품 데이터 추출 구현
+        public List<ReceiptItemData> ReceiptItems()
+        {
+            List<ReceiptItemData> receiptItemDatas = new List<ReceiptItemData>();
+            foreach (var item in _items) 
+            {
+                ReceiptItemData receiptItemData = new ReceiptItemData
+                {
+                    Title = item.Title,
+                    Count = item.Count,
+                    Price = item.Price,
+                    SumPrice = item.SumPrice,
+                };
+
+                receiptItemDatas.Add(receiptItemData);
+            }
+
+            return receiptItemDatas;
+        }
     }
 }
