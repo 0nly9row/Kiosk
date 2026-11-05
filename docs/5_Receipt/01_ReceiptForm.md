@@ -39,7 +39,7 @@
 [3. 표시 이후 처리]
 - 영수증 폼을 닫으면 장바구니를 초기화한다.
 - ReceiptForm은 영수증 표시만 담당한다.
-- 장바구니 초기화는 Form1에서 아래처럼 처리한다. (예정)
+- 장바구니 초기화는 Form1에서 아래처럼 처리한다. 
 → ① ReceiptForm.ShowDialog(this)
 → ② 사용자가 X 버튼으로 닫기
 → ③ ShowDialog() 반환
@@ -93,7 +93,7 @@
 - Property: 상품 전체 금액
 
 
-## 6. ReceiptForm (단독 구현 완료/ Form과 연결 동작 미완료)
+## 6. ReceiptForm (완료)
 - ReceiptData를 전달받는다. 
 - 항목 목록을 순회하며 UI를 동적으로 생성한다.
 - FlowLayoutPanel 등에 각 UI를 배치한다.
@@ -115,23 +115,23 @@
 └─ Label: 상품 총 합계 ((name):lblTotalPrice)
 
 
-# 실제 코드 흐름 예상
-## 1. 사용자가 결제 버튼 클릭 (일부 완료)
+# 실제 코드 흐름 
+## 1. 사용자가 결제 버튼 클릭 (완료)
  → 이벤트 발생
 
-[① Form1] (일부 완료.)
+[① Form1] (완료)
 - Form1이 ButtonPay 클릭 이벤트 핸들러 구현 
-  → 장바구니 비어 있음 검사 (완료)
-  → 장바구니 상품이 있다면 다음 단계 진행 (예정)
+  → 장바구니 비어 있음 검사 
+  → 장바구니 상품이 있다면 다음 단계 진행 
 
-[② ShoppingCartControl] (구현 예정)
+[② ShoppingCartControl] (완료)
 - 현재 장바구니 목록을 순회한다.
 - 각 CartItemData에서 필요한 값을 추출한다.
 - ReceiptItemData 객체로 변환한다.
 - List<ReceiptItemData>를 구성한다.
 - 영수증용 상품 목록을 Form1에 전달한다.
 
-[③ Form1] (구현 예정)
+[③ Form1] (완료)
 - ReceiptData 객체를 생성한다.
 - 주문번호와 주문시간을 확정한다.
 - 영수증용 상품 목록을 Items에 할당한다.
@@ -139,14 +139,14 @@
 - 완성된 ReceiptData를 ReceiptForm에 전달한다.
 - ShowDialog(this)로 영수증을 표시한다.
 
-[④ ReceiptForm] (단독 구현 완료/ Form과 연결 동작 미완료)
+[④ ReceiptForm] (완료)
   → ReceiptForm에서 ReceiptItemData 목록(Items)을 순회
   → ReceiptItemControl 동적 생성
   → ReceiptItemData 목록의 값을
       ReceiptItemControl에 전달에서 화면에 표시
   → 주문번호, 주문시간, 전체 수량 및 금액 표시
 
-[⑤ 영수증 종료 후 처리] (구현 예정)
+[⑤ 영수증 종료 후 처리] (완료)
 - 사용자가 기본 X 버튼으로 폼을 닫는다.
 - ShowDialog()가 반환된다.
 - Form1에서 CancelClear()를 호출한다.

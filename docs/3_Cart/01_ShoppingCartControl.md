@@ -258,7 +258,7 @@ ShoppingCartControl
 → ReceiptItemData 객체를 새로 생성
 → 생성된 객체에 Title, Count, Price, SumPrice를 복사
 → receiptItemDatas.Add()로 목록에 추가
-→ 완성된 영수증용 데이터 목록을 반환 (Form1에 반환 (연결 예정))
+→ 완성된 영수증용 데이터 목록을 반환 (Form1에 반환 (연결 완료))
 
 
 
@@ -335,7 +335,7 @@ decimal price = cart.TotalPrice;
   → ShoppingCartControl에서 핸들러 구현
     → 핸들러에서 RaiseCartChanged() 호출
       → CartChanged 발행
-→ 외부 구독자(연결 예정)
+→ Form1이 CartChanged 수신
 
 
 [Dispose의 필요성]
@@ -358,4 +358,4 @@ decimal price = cart.TotalPrice;
 - CartItemControl 연동 코드 작성 완료
 - Form1과 메뉴 선택 연결 완료
 - ReceiptItems() 영수증용 상품 목록 생성 완료
-- Form1에서 ReceiptItems() 호출 연결 예정
+- Form1에서 ReceiptItems() 호출 연결 완료

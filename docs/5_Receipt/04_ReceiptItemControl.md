@@ -29,7 +29,7 @@
 
 
 # 4. 데이터 전달 및 표시 흐름
-[예정 흐름]
+[현재 구현 흐름]
 ReceiptForm
 → ReceiptData.Items 순회
 → ReceiptItemControl 동적 생성

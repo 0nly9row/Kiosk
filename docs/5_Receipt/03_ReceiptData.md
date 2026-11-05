@@ -60,13 +60,13 @@ CartItemData와 CartItemControl을 분리했다.
 - TotalPrice (decimal)
 
 
-# 5. 데이터 생성 및 전달 계획
+# 5. 데이터 생성 및 전달 
 [전제 조건]
 - 사용자가 결제하기를 클릭한다.
 - Form1에서 장바구니가 비어있는지 검사하는 로직을 통과한다.
 - 영수증용 상품 목록을 준비한다.
 
-[예정 흐름]
+[흐름]
 1. ShoppingCartControl
 → ShoppingCartControl의 상품 정보
 → List<ReceiptItemData> 구성
@@ -85,7 +85,7 @@ CartItemData와 CartItemControl을 분리했다.
 
 
 
-# 6. 다른 구성 요소와의 관계 (이후 예정도 포함)
+# 6. 다른 구성 요소와의 관계 
 1. ShoppingCartControl / CartItemData
 - 현재 주문 중인 상품 정보를 가진다.
 - 영수증 상품 목록 생성에 필요한
@@ -103,7 +103,7 @@ CartItemData와 CartItemControl을 분리했다.
 
 4. ReceiptItemControl
 - ReceiptItemData 한 개를 받아
-  상품 한 줄을 표시할 예정이다.
+  상품 한 줄을 표시한다.
 
 5. ReceiptForm
 - 전달받은 ReceiptData를 읽는다.

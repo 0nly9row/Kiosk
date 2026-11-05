@@ -37,12 +37,12 @@
 - 단가 × 수량에 해당하는 값
 
 
-# 데이터 생성 및 전달 계획
+# 데이터 생성 및 전달 
 [전제 조건]
 - 사용자가 결제하기를 클릭한다.
 - Form1에서 장바구니가 비어있는지 검사하는 로직을 통과한다.
 
-[예정 흐름]
+[흐름]
 ShoppingCartControl의 CartItemData 목록
 → 각 항목에서 필요한 값 추출
 → ReceiptItemData 객체 생성
@@ -52,7 +52,7 @@ ShoppingCartControl의 CartItemData 목록
 → ReceiptForm으로 전달
 
 
-#  다른 구성 요소와의 관계 (이후 예정도 포함)
+#  다른 구성 요소와의 관계 
 1. ShoppingCartControl / CartItemData
 - 현재 주문 중인 상품 정보를 가진다.
 - 영수증에 필요한 상품 값을 제공한다.
@@ -61,16 +61,16 @@ ShoppingCartControl의 CartItemData 목록
 - 결제 요청을 받아 장바구니를 검사한다.
 - 이후 영수증 전체 데이터를 구성한다.
 
-3. ReceiptData (예정)
+3. ReceiptData (완료)
 - List<ReceiptItemData> Items를 통해
   여러 영수증 상품을 하나로 묶는다.
 - 주문번호, 주문시간, 전체 합계 등은
-  ReceiptData에서 담당할 예정이다.
+  ReceiptData에서 담당한다
 
-4. ReceiptItemControl (예정)
+4. ReceiptItemControl (완료)
 - ReceiptItemData 한 개를 받아
-  영수증의 상품 한 줄을 표시할 예정이다.
+  영수증의 상품 한 줄을 표시한다.
 
-5. ReceiptForm (예정)
+5. ReceiptForm (완료)
 - ReceiptData.Items를 순회하여
   ReceiptItemControl을 반복 생성한다.
