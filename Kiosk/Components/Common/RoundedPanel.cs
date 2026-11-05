@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
-namespace Kiosk.Components
+namespace Kiosk.Components.Common
 {
     internal class RoundedPanel : Panel
     {

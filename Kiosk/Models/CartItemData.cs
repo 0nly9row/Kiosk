@@ -10,7 +10,7 @@ namespace Kiosk.Models
     {
         public int ID { get; set; }
 
-        public string Title { get; set; } = string.Empty;
+        public string Title { get; set; } = "";
 
         public decimal Price { get; set; }
 
