@@ -2,6 +2,7 @@ using Kiosk.Components.OrderTotal;
 using Kiosk.Models;
 using System;
 using System.Windows.Forms;
+using Microsoft.Data.SqlClient;
 
 namespace Kiosk
 {
@@ -11,6 +12,8 @@ namespace Kiosk
         {
             InitializeComponent();
             menuBoard1.CreateMenuItems();
+
+            TestDatabaseConnection();
         }
 
         private void menuBoard1_ItemClicked(object sender, MenuItemData e)
@@ -69,6 +72,31 @@ namespace Kiosk
             receiptForm.Dispose();
             
             shoppingCartControl1.CancelClear();
+        }
+        private void TestDatabaseConnection()
+        {
+            string connectionString =
+                "Server=localhost;" +
+                "Database=KioskDB;" +
+                "Integrated Security=True;" +
+                "Encrypt=True;" +
+                "TrustServerCertificate=True;";
+
+            try
+            {
+                using (SqlConnection connection =
+                    new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    MessageBox.Show("DB 연결 성공!");
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(
+                    "DB 연결 실패: " + ex.Message);
+            }
         }
     }
 }
