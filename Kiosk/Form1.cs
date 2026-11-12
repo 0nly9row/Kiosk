@@ -2,6 +2,7 @@ using Kiosk.Components.OrderTotal;
 using Kiosk.Models;
 using System;
 using System.Windows.Forms;
+using Kiosk.Database;
 using Microsoft.Data.SqlClient;
 
 namespace Kiosk
@@ -11,9 +12,39 @@ namespace Kiosk
         public Form1()
         {
             InitializeComponent();
-            menuBoard1.CreateMenuItems();
+            //menuBoard1.CreateMenuItems();
 
-            TestDatabaseConnection();
+            try
+            {
+                List<MenuItemData> dbItems =
+                    GetMenuItemsFromDatabase();
+
+                List<MenuItemData> designItems =
+                    menuBoard1.Items;
+
+                foreach (MenuItemData dbItem in dbItems)
+                {
+                    foreach (MenuItemData designItem
+                        in designItems)
+                    {
+                        if (dbItem.Title == designItem.Title)
+                        {
+                            dbItem.Image = designItem.Image;
+                            break;
+                        }
+                    }
+                }
+
+                menuBoard1.Items = dbItems;
+                menuBoard1.CreateMenuItems();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(
+                    "메뉴 조회 실패: " + ex.Message);
+            }
+
+
         }
 
         private void menuBoard1_ItemClicked(object sender, MenuItemData e)
@@ -73,8 +104,12 @@ namespace Kiosk
             
             shoppingCartControl1.CancelClear();
         }
-        private void TestDatabaseConnection()
+
+        private List<MenuItemData> GetMenuItemsFromDatabase()
         {
+            List<MenuItemData> items =
+                new List<MenuItemData>();
+
             string connectionString =
                 "Server=localhost;" +
                 "Database=KioskDB;" +
@@ -82,21 +117,39 @@ namespace Kiosk
                 "Encrypt=True;" +
                 "TrustServerCertificate=True;";
 
-            try
-            {
-                using (SqlConnection connection =
-                    new SqlConnection(connectionString))
-                {
-                    connection.Open();
+            string sql =
+                "SELECT MenuId, MenuName, Price " +
+                "FROM dbo.Menu;";
 
-                    MessageBox.Show("DB 연결 성공!");
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (SqlCommand command =
+                    new SqlCommand(sql, connection))
+                {
+                    using (SqlDataReader reader =
+                        command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            MenuItemData item =
+                                new MenuItemData();
+
+                            item.ID = reader.GetInt32(0);
+                            item.Title = reader.GetString(1);
+                            item.Price = reader.GetDecimal(2);
+
+                            items.Add(item);
+                        }
+                    }
                 }
             }
-            catch (SqlException ex)
-            {
-                MessageBox.Show(
-                    "DB 연결 실패: " + ex.Message);
-            }
+
+            return items;
         }
+
+
     }
 }
