@@ -119,5 +119,24 @@ namespace Kiosk.Components.Cart
 
             return receiptItemDatas;
         }
+
+        /// <summary>
+        /// 장바구니의 상품 ID와 수량을
+        /// DB 주문 저장 요청용 데이터로 변환한다.
+        /// </summary>
+        public List<OrderItemRequest> GetOrderItems()
+        {
+            List<OrderItemRequest> result = new();
+
+            foreach (CartItemData item in _items)
+            {
+                result.Add(new OrderItemRequest
+                {
+                    MenuId = item.ID,
+                    Quantity = item.Count
+                });
+            }
+            return result;
+        }
     }
 }
